@@ -1,5 +1,8 @@
 import React,{useState} from 'react'
 import List from './components/List'
+import NavBar from './components/Navbar/Navbar';
+import Cart from './components/cart/Cart';
+import CartProvider from './store/CartProvider';
 
 const App = () => {
 
@@ -13,9 +16,11 @@ const App = () => {
   }
 
   return (
-    <>
-      <List onCartShow={showCartHandler} cartShown={cartShown} />
-    </>
+    <CartProvider>
+      <NavBar onShowCart={showCartHandler}/>
+      <List/>
+      {cartShown && <Cart onHideCart={hideCartHandler}/>}
+    </CartProvider>
   )
 }
 

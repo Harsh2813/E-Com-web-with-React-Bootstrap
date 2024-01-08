@@ -1,5 +1,6 @@
-import React from "react";
-import Cart from "./cart/Cart";
+import React, {useContext} from "react";
+import { Button, Card, Container, Row, Col } from "react-bootstrap";
+import CartContext from "../store/Cart-context";
 
 const productsArr = [
   {
@@ -28,18 +29,33 @@ const productsArr = [
   },
 ];
 
-const List = (props) => {
+const List = () => {
 
-    const productList = productsArr.map((item) => (
-        <li key={item.id}>{item.title} {item.price} <img src={item.imageUrl}/> </li>
-    ))
+  const cartCxt = useContext(CartContext);
+
+  const addToCartHandler = (data) => {
+    cartCxt.addItem(data);
+  }
 
   return (
     <>
-        <ul>
-        <button onClick={props.onCartShow}>Cart</button>
-        {productList}
-        {props.cartShown && <Cart list={productList} />}
+      <ul>
+        <Container>
+          <Row>
+            {productsArr.map((item) => (
+              <Col key={item.id} md={6} className="mb-5">
+                <Card style={{ width: "18rem" }}>
+                <Card.Title>{item.title}</Card.Title>
+                  <Card.Img variant="top" src={item.imageUrl} />
+                  <Card.Body>
+                    <Card.Text>{item.price}</Card.Text>
+                    <Button onClick={()=> addToCartHandler(item)} variant="primary">Add to Cart</Button>
+                  </Card.Body>
+                </Card>
+              </Col>
+            ))}
+          </Row>
+        </Container>
       </ul>
     </>
   );
