@@ -5,6 +5,8 @@ import { Button, Card } from "react-bootstrap";
 const Cart = (props) => {
   const cartCxt = useContext(CartContext);
 
+  let totalAmount = cartCxt.items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
   return (
     <>
       <ul>
@@ -15,6 +17,7 @@ const Cart = (props) => {
               <Card.Img variant="top" src={item.imageUrl} />
               <Card.Body>
                 <Card.Text>{item.price} {item.quantity}x</Card.Text>
+                <Card.Text>{totalAmount.toFixed(2)}</Card.Text>
                 <Button onClick={props.onHideCart} variant="primary">Close</Button>
               </Card.Body>
             </Card>

@@ -1,6 +1,7 @@
 import React, {useContext} from 'react'
 import { Navbar, Container, Nav, Button } from 'react-bootstrap'
 import CartContext from '../../store/Cart-context'
+import About from '../About/About'
 
 const NavBar = (props) => {
 
@@ -18,7 +19,7 @@ const NavBar = (props) => {
             <Nav className="me-auto">
                 <Nav.Link href="#home" style={{color: 'white'}}>Home</Nav.Link>
                 <Nav.Link href="#link" style={{color: 'white'}}>Store</Nav.Link>
-                <Nav.Link href="#link" style={{color: 'white'}}>About </Nav.Link>
+                <Nav.Link href="/about" style={{color: 'white'}}>About </Nav.Link>
                 <Button onClick={props.onShowCart} style={{marginLeft: '1000px'}}variant="primary">Cart{cartQuantity}</Button>
             </Nav>
         </Container>
