@@ -1,7 +1,7 @@
 import React, {useContext} from 'react'
-import { Navbar, Container, Nav, Button } from 'react-bootstrap'
+import { Navbar, Container, Button, Nav } from 'react-bootstrap'
+import { NavLink } from "react-router-dom/cjs/react-router-dom";
 import CartContext from '../../store/Cart-context'
-import About from '../About/About'
 
 const NavBar = (props) => {
 
@@ -21,11 +21,12 @@ const NavBar = (props) => {
       <Navbar bg="dark" expand="md" variant='dark'>
         <Container>
             <Nav className="me-auto">
-                <Nav.Link href="#home" style={{color: 'white'}}>Home</Nav.Link>
-                <Nav.Link href="#link" style={{color: 'white'}}>Store</Nav.Link>
-                <Button onClick={handleMoviesClick}  style={{color: 'white'}}>Movies</Button>
-                <Nav.Link href="/about" style={{color: 'white'}}>About </Nav.Link>
-                <Button onClick={props.onShowCart} style={{marginLeft: '1000px'}}variant="primary">Cart{cartQuantity}</Button>
+                <NavLink to="/" style={{color: 'white'}}>Home</NavLink>{" "}
+                <NavLink to ="/Store" style={{color: 'white'}}>Store</NavLink>
+                <NavLink to="/Movie" style={{color: 'white'}}>Movie</NavLink>
+                <NavLink to="/About" style={{color: 'white'}}>About</NavLink>
+                {/* <Nav.Link href="/About" style={{color: 'white'}}>About </Nav.Link> this we using in botsrap@6*/}
+                <Button onClick={props.onShowCart} style={{marginLeft: '800px'}}variant="primary">Cart{cartQuantity}</Button>
             </Nav>
         </Container>
       </Navbar>

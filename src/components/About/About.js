@@ -4,16 +4,6 @@ import { Navbar, Container, Nav } from 'react-bootstrap'
 const About = () => {
   return (
     <>
-      <Navbar bg="dark" expand="md" variant='dark'>
-        <Container>
-            <Nav className="me-auto">
-                <Nav.Link href="#home" style={{color: 'white'}}>Home</Nav.Link>
-                <Nav.Link href="#link" style={{color: 'white'}}>Store</Nav.Link>
-                <Nav.Link href="#link" style={{color: 'white'}}>About </Nav.Link>
-            </Nav>
-        </Container>
-      </Navbar>
-      <h1 style={{background: 'grey', color: 'white', display: 'flex', justifyContent: 'center', marginTop: '2px'}}>The Generics</h1>
       <Container>
         <h3>About</h3>
         <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. At facilis reiciendis quod, quis dicta eaque quibusdam enim? Repellendus, recusandae, minus nostrum voluptas consectetur tempora, dignissimos non sapiente ullam sed enim! Architecto hic distinctio consectetur rem, autem vel fugiat at tempore eveniet magnam vitae rerum ea neque sequi cupiditate aperiam incidunt assumenda quo quia. Tempora ipsa enim, recusandae libero ratione aperiam magnam consequatur nostrum fugiat harum eius nulla similique adipisci exercitationem. Exercitationem eaque, nam sapiente eligendi minima quae ad consequatur amet magni provident reiciendis aperiam repellendus inventore corrupti expedita aut, totam, modi porro tempora! Inventore, illo similique fugiat voluptatibus error et atque asperiores hic assumenda aspernatur temporibus qui obcaecati quidem iure ipsam cum saepe explicabo esse. Doloribus nihil explicabo architecto cumque? Ea ipsam est inventore ad sed? Officiis nihil laudantium, consectetur delectus dignissimos ea tempore aut molestias eligendi, aperiam nesciunt soluta distinctio blanditiis ducimus? Ipsam ab aperiam et. Delectus debitis suscipit inventore est voluptas nesciunt. Quam vero hic eveniet impedit et, atque fugit praesentium quas ipsa eum ut recusandae error a aliquam facere non, optio aperiam, unde blanditiis placeat sit? A deserunt veritatis esse laboriosam quibusdam, tenetur excepturi at illo quasi. Nobis delectus enim accusamus quisquam a, quibusdam cupiditate ipsam dolor.</p>
