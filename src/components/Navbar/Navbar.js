@@ -12,10 +12,6 @@ const NavBar = (props) => {
         return cartQuantity = cartQuantity + Number(item.quantity);
     });
 
-    const handleMoviesClick = () => {
-      props.onShowMovies(); // Notify App component to show Movies
-    };
-
   return (
     <>
       <Navbar bg="dark" expand="md" variant='dark'>
@@ -25,6 +21,7 @@ const NavBar = (props) => {
                 <NavLink to ="/Store" style={{color: 'white'}}>Store</NavLink>
                 <NavLink to="/Movie" style={{color: 'white'}}>Movie</NavLink>
                 <NavLink to="/About" style={{color: 'white'}}>About</NavLink>
+                <NavLink to="/Contact" style={{color: 'white'}}>Contact US</NavLink>
                 {/* <Nav.Link href="/About" style={{color: 'white'}}>About </Nav.Link> this we using in botsrap@6*/}
                 <Button onClick={props.onShowCart} style={{marginLeft: '800px'}}variant="primary">Cart{cartQuantity}</Button>
             </Nav>

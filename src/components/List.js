@@ -1,5 +1,6 @@
 import React, {useContext} from "react";
 import { Button, Card, Container, Row, Col } from "react-bootstrap";
+import { Link } from 'react-router-dom';
 import CartContext from "../store/Cart-context";
 
 const productsArr = [
@@ -46,6 +47,7 @@ const List = () => {
               <Col key={item.id} md={6} className="mb-5">
                 <Card style={{ width: "18rem" }}>
                 <Card.Title>{item.title}</Card.Title>
+                <Link to={`/Store/${item.id}`}>View Details</Link>
                   <Card.Img variant="top" src={item.imageUrl} />
                   <Card.Body>
                     <Card.Text>{item.price}</Card.Text>

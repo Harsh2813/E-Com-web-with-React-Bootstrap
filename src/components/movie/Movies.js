@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import classes from "./Movies.module.css";
 import { Button } from "react-bootstrap";
+import AddMovie from "./AddMovie";
 
 const Movies = (props) => {
   const [movies, setMovies] = useState([]);
@@ -8,6 +9,7 @@ const Movies = (props) => {
   const [error, setError] = useState("");
 
   //We used useCallback hook here because below in useEffect we are passing fetchMoviesHandler fn as dependency and functions are like object in js whihc is reference data type so it will change in every renders so we used useCallback so that fn points to same reference when it was created first.
+
   const fetchMoviesHandler = useCallback(async function () {
     setIsLoading(true);
     setError(null);
@@ -82,6 +84,10 @@ const Movies = (props) => {
   if (isLoading) {
     content = <p>Loading...</p>;
   }
+
+  const onAddMovie = (movie) => {
+    props.onAddMovie(movie);
+  }
   return (
     <>
       <section>
@@ -94,7 +100,7 @@ const Movies = (props) => {
         </button>
       </section>
       <section>{content}</section>
-      <button onClick={props.onHideMovies}>Exit</button>
+      <AddMovie onAddMovie={onAddMovie}/>
     </>
   );
 };
