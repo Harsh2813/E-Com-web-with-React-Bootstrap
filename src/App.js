@@ -10,6 +10,7 @@ import HomePage from './Pages/HomePage';
 import Movies from './components/movie/Movies';
 import ProductDetail from './Pages/ProductDetail';
 import ContactUs from './Pages/ContactUs';
+import AuthForm from './Pages/AuthForm';
 
 const App = () => {
 
@@ -64,6 +65,7 @@ const App = () => {
         <Route path= '/Movie'> <Movies onAddMovie={addMovieHandler}/> </Route>
         <Route path= '/About'><About/></Route>
         <Route path='/Contact'> <ContactUs contactFormHandler={contactFormHandler} /> </Route>
+        <Route path = '/auth'> <AuthForm/> </Route>
       {/* <Route path="/Store" component={List} /> if above Route syntax not work so we can use like this*/}
       </Switch>
     </CartProvider>
