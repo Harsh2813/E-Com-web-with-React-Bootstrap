@@ -15,7 +15,6 @@ const AuthForm = () => {
   const passwordRef = useRef("");
 
   const switchAuthModeHandler = () => {
-    //hm bs form switch kr rhe state change krke input same h bcoz
     setIsLogin((prevState) => !prevState);
   };
 
@@ -27,16 +26,15 @@ const AuthForm = () => {
     //can add input's validation
 
     setIsLoading(true);
-    let url; // same fetch method use krna h different url ke liye isiliye url ke liye taki uske acc. server work karega and hme jo Id token milta h. The token would be used in all the api calls after logging in so we need to store it smartly, so that it could be used
+    let url; 
     if (isLogin) {
-      //agar isLogin true hua matlab login form wale input submit hue to
       url =
       "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCov4KYckdje832Pif7KNBf6JMvlxJUyIo"
     } else {
-      // agr isLogin false hua mtlb signUp wale page me to post kr denge input details of user
       url =
       "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCov4KYckdje832Pif7KNBf6JMvlxJUyIo"
     }
+
     fetch(url, {
       method: "POST",
       body: JSON.stringify({
@@ -47,26 +45,24 @@ const AuthForm = () => {
       headers: { "Content-Type": "application/json" },
     })
       .then((res) => {
-        //is wale .then me agar response sahi ok h to json me return kiye else error throw kiye
         setIsLoading(false);
         if (res.ok) {
           return res.json();
         } else {
           return res.json().then((data) => {
-            //.json return promise so we have to use .then again after .json method
             //show error modal
             let errorMessage = "Authentication Failed!";
             // if (data && data.error && data.error.message) {
             //   errorMessage = data.error.message;
             // }
-            throw new Error(errorMessage); //ye hmne error throw krke niche .catch me handle kr liya
+            throw new Error(errorMessage);
           });
         }
       })
       .then((data) => {
         authCxt.login(data.idToken, 300);//300 is second i.e. 5 minute to automatic logout after 5 min of login
         history.replace("/Store");
-      }) //uper wale then se jo data aaya usko yha handle kiye login se
+      })
       .catch((err) => alert(err.message));
   };
 

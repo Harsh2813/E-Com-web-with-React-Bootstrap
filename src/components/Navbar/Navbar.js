@@ -2,10 +2,13 @@ import React, {useContext} from 'react'
 import { Navbar, Container, Button, Nav } from 'react-bootstrap'
 import { NavLink, Link } from "react-router-dom/cjs/react-router-dom";
 import CartContext from '../../store/Cart-context'
+import AuthContext from '../../store/auth-context';
 
 const NavBar = (props) => {
 
     const cartCxt = useContext(CartContext);
+    const authCxt = useContext(AuthContext);
+    let isLoggedIn = authCxt.isLoggedIn;
 
     let cartQuantity = 0;
     cartCxt.items.forEach((item) => {
@@ -17,14 +20,15 @@ const NavBar = (props) => {
       <Navbar bg="dark" expand="md" variant='dark'>
         <Container>
             <Nav className="me-auto">
-                <NavLink to="/" style={{color: 'white'}}>Home</NavLink>{" "}
-                <NavLink to ="/Store" style={{color: 'white'}}>Store</NavLink>
-                <NavLink to="/Movie" style={{color: 'white'}}>Movie</NavLink>
-                <NavLink to="/About" style={{color: 'white'}}>About</NavLink>
-                <NavLink to="/Contact" style={{color: 'white'}}>Contact US</NavLink>
+                { isLoggedIn && <NavLink to="/" style={{color: 'white'}}>Home</NavLink>}
+                { isLoggedIn && <NavLink to ="/Store" style={{color: 'white'}}>Store</NavLink>}
+                { isLoggedIn && <NavLink to="/Movie" style={{color: 'white'}}>Movie</NavLink>}
+                { isLoggedIn && <NavLink to="/About" style={{color: 'white'}}>About</NavLink>}
+                { isLoggedIn && <NavLink to="/Contact" style={{color: 'white'}}>Contact US</NavLink>}
                 <Link to='/auth' style={{color: 'white'}}>Login</Link>
+                { isLoggedIn && <button onClick={()=>authCxt.logout()}>Logout</button>}
                 {/* <Nav.Link href="/About" style={{color: 'white'}}>About </Nav.Link> this we using in botsrap@6*/}
-                <Button onClick={props.onShowCart} style={{marginLeft: '800px'}}variant="primary">Cart{cartQuantity}</Button>
+                { isLoggedIn && <Button onClick={props.onShowCart} style={{marginLeft: '800px'}}variant="primary">Cart{cartQuantity}</Button>}
             </Nav>
         </Container>
       </Navbar>
