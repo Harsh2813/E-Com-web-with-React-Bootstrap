@@ -60,7 +60,8 @@ const AuthForm = () => {
         }
       })
       .then((data) => {
-        authCxt.login(data.idToken, 300);//300 is second i.e. 5 minute to automatic logout after 5 min of login
+        console.log(data);
+        authCxt.login(data.idToken, data.email, 300);//300 is second i.e. 5 minute to automatic logout after 5 min of login
         history.replace("/Store");
       })
       .catch((err) => alert(err.message));

@@ -25,7 +25,7 @@ const NavBar = (props) => {
                 { isLoggedIn && <NavLink to="/Movie" style={{color: 'white'}}>Movie</NavLink>}
                 { isLoggedIn && <NavLink to="/About" style={{color: 'white'}}>About</NavLink>}
                 { isLoggedIn && <NavLink to="/Contact" style={{color: 'white'}}>Contact US</NavLink>}
-                <Link to='/auth' style={{color: 'white'}}>Login</Link>
+                {!isLoggedIn && <Link to='/auth' style={{color: 'white'}}>Login</Link>}
                 { isLoggedIn && <button onClick={()=>authCxt.logout()}>Logout</button>}
                 {/* <Nav.Link href="/About" style={{color: 'white'}}>About </Nav.Link> this we using in botsrap@6*/}
                 { isLoggedIn && <Button onClick={props.onShowCart} style={{marginLeft: '800px'}}variant="primary">Cart{cartQuantity}</Button>}
