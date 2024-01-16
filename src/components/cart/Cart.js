@@ -3,7 +3,6 @@ import CartContext from "../../store/Cart-context";
 import { Button, Card } from "react-bootstrap";
 import Modal from "../UI/Modal";
 import "./Cart.css";
-import axios from "axios";
 import AuthContext from "../../store/auth-context";
 
 const Cart = (props) => {
@@ -16,19 +15,21 @@ const Cart = (props) => {
     const fetchCartItems = async () => {
       try {
         const userEmail = authCxt.userEmail;
-        const response = await axios.get(
-          `https://crudcrud.com/api/0f047e23a60142ae870715fe674e6f3b/cart/test1testcom`
+        const response = await fetch(
+          `https://authentication-in-react-learn-default-rtdb.firebaseio.com/cart/test1testcom.json`
         );
-        if (response.status === 200) {
-          let data = response.data; //data hme as object mila hoga to use array me rakhna padega pr object ko
-          let cartItems = []; //ye array of object fir cartProvider me deke items me set kr denge get kiye to api se
+        if (response.ok) {
+          const data = await response.json(); 
+          //console.log(data);
+          let cartItems = [];
           for (let key in data) {
             cartItems.push({
               id: key,
               ...data[key],
-            }); //For each key in the data object, it creates a new object representing a cart item. This object has an id property set to the current key and other properties copied from the corresponding data[key].
+            });
           }
-          cartCxt.addItem(cartItems); //sare cart ke items/object ke liye cartItems me push krke set kr diye
+          //cartCxt.addItem(cartItems);// ?
+          //console.log(cartItems);
         } else {
           console.log("failed to fetch cart Items");
         }
@@ -41,15 +42,23 @@ const Cart = (props) => {
     if (authCxt.isLoggedIn) {
       fetchCartItems();
     } else {
-      //agar userloggin h to hi cartFetch hoga ni to ni hoga
       setIsLoading(false);
     }
-  }, [authCxt.isLoggedIn, authCxt.userEmail, cartCxt.setItems]);
+  }, [authCxt.isLoggedIn]);
+
+  const deleteCartHandler = async () => {
+    try {
+      await cartCxt.deleteItem();
+    } catch (error) {
+      console.error("Error deleting cart in Cart component:", error);
+    }
+  };
 
   let totalAmount = cartCxt.items.reduce(
-    (sum, item) => sum + item.price * item.quantity,
+    (sum, item) => sum + (item.price || 0) * item.quantity,
     0
   );
+  //console.log(cartCxt.items);
 
   return (
     <>
@@ -57,8 +66,8 @@ const Cart = (props) => {
         {isLoading && <p>Loading cart...</p>}
         {!isLoading && (
           <ul>
-            {cartCxt.items.map((item) => (
-              <li key={item.id}>
+            {cartCxt.items.map((item, index) => (
+              <li key={index}>
                 <Card style={{ width: "18rem" }}>
                   <Card.Title>{item.title}</Card.Title>
                   <Card.Img variant="top" src={item.imageUrl} />
@@ -74,6 +83,9 @@ const Cart = (props) => {
               </li>
             ))}
             <Card.Text>{totalAmount.toFixed(2)}</Card.Text>
+            <Button onClick={deleteCartHandler} variant="danger">
+              Delete Cart
+            </Button>
             <Button onClick={props.onHideCart} variant="primary">
               Close
             </Button>

@@ -1,17 +1,23 @@
-import React, { useState, useContext } from "react";
-import List from "./components/List";
+import React, { useState, useContext, lazy, Suspense } from "react";
+import Store from "./Pages/Store";
 import NavBar from "./components/Navbar/Navbar";
 import Cart from "./components/cart/Cart";
 import CartProvider from "./store/CartProvider";
 //import { createBrowserRouter, RouterProvider } from 'react-router-dom'; we are not using react-bootstrap@6
 import { Route, Switch, Redirect } from "react-router-dom/cjs/react-router-dom"; //we now using version 5 of react-bootsrap
-import About from "./Pages/About";
-import HomePage from "./Pages/HomePage";
-import Movies from "./components/movie/Movies";
-import ProductDetail from "./Pages/ProductDetail";
-import ContactUs from "./Pages/ContactUs";
+// import About from "./Pages/About";
+// import HomePage from "./Pages/HomePage";
+// import Movies from "./components/movie/Movies";
+// import ProductDetail from "./Pages/ProductDetail";
+// import ContactUs from "./Pages/ContactUs";
 import AuthForm from "./Pages/AuthForm";
 import AuthContext from "./store/auth-context";
+
+const About = lazy(() => import("./Pages/About"));//lazy loading we use jb hme suppose about page tb hi dikhana h jb uspe click ho ni to apne aap render ni krwana like we used memoization and suspense loads data then after show
+const HomePage = lazy(() => import("./Pages/HomePage"));
+const Movies = lazy(() => import("./components/movie/Movies"));
+const ProductDetail = lazy(() => import("./Pages/ProductDetail"));
+const ContactUs = lazy(() => import("./Pages/ContactUs"));
 
 const App = () => {
   const [cartShown, setCartShown] = useState(false);
@@ -64,28 +70,46 @@ const App = () => {
         {cartShown && <Cart onHideCart={hideCartHandler} />}
         <Switch>
           <Route exact path="/">
-            {authCxt.isLoggedIn && <HomePage />}
+            {authCxt.isLoggedIn && (
+              <Suspense fallback={<p>Loading...</p>}>
+                <HomePage />
+              </Suspense>
+            )}
             {!authCxt.isLoggedIn && <Redirect to="/auth" />}
           </Route>
           <Route path="/Store/:productId">
-            {authCxt.isLoggedIn && <ProductDetail />}
+            {authCxt.isLoggedIn && (
+              <Suspense fallback={<p>Loading...</p>}>
+                <ProductDetail />
+              </Suspense>
+            )}
             {!authCxt.isLoggedIn && <Redirect to="/auth" />}
           </Route>
           <Route path="/Store">
-            {authCxt.isLoggedIn && <List />}
+            {authCxt.isLoggedIn && <Store  onShowCart={showCartHandler} />}
             {!authCxt.isLoggedIn && <Redirect to="/auth" />}
           </Route>
           <Route path="/Movie">
-            {authCxt.isLoggedIn && <Movies onAddMovie={addMovieHandler} />}
+            {authCxt.isLoggedIn && (
+              <Suspense fallback={<p>Loading...</p>}>
+                <Movies onAddMovie={addMovieHandler} />
+              </Suspense>
+            )}
             {!authCxt.isLoggedIn && <Redirect to="/auth" />}
           </Route>
           <Route path="/About">
-            {authCxt.isLoggedIn && <About />}
+            {authCxt.isLoggedIn && (
+              <Suspense fallback={<p>Loading...</p>}>
+                <About />
+              </Suspense>
+            )}
             {!authCxt.isLoggedIn && <Redirect to="/auth" />}
           </Route>
           <Route path="/Contact">
             {authCxt.isLoggedIn && (
-              <ContactUs contactFormHandler={contactFormHandler} />
+              <Suspense fallback={<p>Loading...</p>}>
+                <ContactUs contactFormHandler={contactFormHandler} />
+              </Suspense>
             )}
             {!authCxt.isLoggedIn && <Redirect to="/auth" />}
           </Route>

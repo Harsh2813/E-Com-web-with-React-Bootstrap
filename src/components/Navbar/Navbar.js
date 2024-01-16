@@ -8,6 +8,7 @@ const NavBar = (props) => {
 
     const cartCxt = useContext(CartContext);
     const authCxt = useContext(AuthContext);
+
     let isLoggedIn = authCxt.isLoggedIn;
 
     let cartQuantity = 0;
