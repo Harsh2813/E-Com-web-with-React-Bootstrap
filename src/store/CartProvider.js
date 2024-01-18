@@ -6,6 +6,44 @@ import AuthContext from "./auth-context";
 const CartProvider = (props) => {
   const [items, setItems] = useState([]);
   const authCxt = useContext(AuthContext);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    setIsLoading(true);
+    const fetchCartItems = async () => {
+      try {
+        const userEmail = authCxt.userEmail;
+        const response = await fetch(
+          `https://authentication-in-react-learn-default-rtdb.firebaseio.com/cart/test1testcom.json`
+        );
+        if (response.ok) {
+          const data = await response.json(); 
+          //console.log(data);
+          let cartItems = [];
+          for (let key in data) {
+            cartItems.push({
+              id: key,
+              ...data[key],
+            });
+          }
+          setItems(cartItems);
+          //console.log(cartItems);
+        } else {
+          console.log("failed to fetch cart Items");
+        }
+      } catch (error) {
+        console.log("failed to fetch data", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    if (authCxt.isLoggedIn) {
+      fetchCartItems();
+    } else {
+      setIsLoading(false);
+    }
+  }, [authCxt.isLoggedIn]);
+
 
   const addItemToCartHandler = async (gotData) => {
     try {
@@ -45,30 +83,6 @@ const CartProvider = (props) => {
     console.log(items);
   }
 
-  // const addItemToCartHandler = async (gotData) => {
-  //   try {
-  //     const userEmail = authCxt.userEmail;
-  //     const response = await fetch(
-  //       `https://authentication-in-react-learn-default-rtdb.firebaseio.com/cart/test1testcom.json`,
-  //       {
-  //         method: "POST",
-  //         body: JSON.stringify(gotData),
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //       }
-  //     );
-
-  //     if (response.ok) {
-  //       setItems((prevItems) => [...prevItems, gotData]);
-  //     } else {
-  //       console.error("Failed to add item to cart");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error adding item to cart:", error);
-  //   }
-  // };
-
   const removeItemToCartHandler = (id) => {
     setItems(items.filter((item) => item.id !== id));
   };
@@ -107,6 +121,7 @@ const CartProvider = (props) => {
     removeItem: removeItemToCartHandler,
     updateItem: updateItemToCartHandler,
     deleteItem: deleteCartHandler,
+    isLoading: isLoading,
   };
 
   return (

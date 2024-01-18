@@ -8,44 +8,8 @@ import AuthContext from "../../store/auth-context";
 const Cart = (props) => {
   const cartCxt = useContext(CartContext);
   const authCxt = useContext(AuthContext);
-  const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    setIsLoading(true);
-    const fetchCartItems = async () => {
-      try {
-        const userEmail = authCxt.userEmail;
-        const response = await fetch(
-          `https://authentication-in-react-learn-default-rtdb.firebaseio.com/cart/test1testcom.json`
-        );
-        if (response.ok) {
-          const data = await response.json(); 
-          //console.log(data);
-          let cartItems = [];
-          for (let key in data) {
-            cartItems.push({
-              id: key,
-              ...data[key],
-            });
-          }
-          //cartCxt.addItem(cartItems);// ?
-          //console.log(cartItems);
-        } else {
-          console.log("failed to fetch cart Items");
-        }
-      } catch (error) {
-        console.log("failed to fetch data", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    if (authCxt.isLoggedIn) {
-      fetchCartItems();
-    } else {
-      setIsLoading(false);
-    }
-  }, [authCxt.isLoggedIn]);
-
+  
   const deleteCartHandler = async () => {
     try {
       await cartCxt.deleteItem();
@@ -63,8 +27,8 @@ const Cart = (props) => {
   return (
     <>
       <Modal onHideCart={props.onHideCart}>
-        {isLoading && <p>Loading cart...</p>}
-        {!isLoading && (
+        {cartCxt.isLoading && <p>Loading cart...</p>}
+        {!cartCxt.isLoading && (
           <ul>
             {cartCxt.items.map((item, index) => (
               <li key={index}>
